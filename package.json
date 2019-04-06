@@ -1,0 +1,15 @@
+{
+  "name": "telegrambookmarkerbot",
+  "version": "1.0.0",
+  "description": "A bot to bookmark your stuff on telegram",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "telegram",
+    "bot",
+    "bookmark"
+  ],
+  "author": "Gabriel Joshua Paet",
+  "license": "ISC"
+}
