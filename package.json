@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A bot to bookmark your stuff on telegram",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon index.js"
   },
   "keywords": [
     "telegram",
@@ -11,5 +11,9 @@
     "bookmark"
   ],
   "author": "Gabriel Joshua Paet",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^7.0.0",
+    "node-telegram-bot-api": "^0.30.0"
+  }
 }
