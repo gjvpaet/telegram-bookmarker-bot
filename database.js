@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const mongoURI = 'mongodb://127.0.0.1:27017/bookmarkerbot';
 const dirPath = `${__dirname}/models/`;
 
+/** Database initialization methods */
 exports.createDirectory = async () => {
     if (!fs.existsSync(dirPath)) {
         const mkdir = util.promisify(fs.mkdir);
@@ -60,3 +61,32 @@ module.exports = mongoose.model('Bookmark${chatId}', bookmark${chatId}Schema);
 };
 
 exports.connect = () => mongoose.connect(mongoURI, { useNewUrlParser: true });
+/** End */
+
+/** Database CRUD methods */
+exports.addBookmark = async (chatId, data) => {
+    const Bookmark = require(`./models/${chatId}`);
+
+    let {
+        title,
+        content,
+        keywords
+    } = data;
+
+    const bookmark = new Bookmark({
+        _id: new mongoose.Types.ObjectId(),
+        title,
+        content,
+        keywords,
+    });
+
+    try {
+        await bookmark.save();
+
+        return { message: 'Woohoo! Your bookmark is added.' };
+    } catch (error) {
+        console.log('error: ', error);
+        return { message: 'Oops! It seems that something went wrong.' };
+    }
+};
+/** End */
