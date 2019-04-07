@@ -28,7 +28,7 @@ bot.on('message', async msg => {
                 prevBotMsg = 'Okay, please enter your bookmark';
                 bot.sendMessage(chatId, prevBotMsg);
                 break;
-            case '/getBookmark':
+            case '/getbookmark':
                 prevBotMsg = 'Enter a bookmark title';
                 bot.sendMessage(chatId, prevBotMsg);
                 break;
@@ -82,7 +82,7 @@ bot.on('message', async msg => {
                         bot.sendMessage(chatId, res.message);
                         return;
                     }
-                    
+
                     bot.sendMessage(chatId, res.message);
 
                     res.bookmarks.map(bookmark => {
