@@ -28,6 +28,10 @@ bot.on('message', async msg => {
                 prevBotMsg = 'Okay, please enter your bookmark';
                 bot.sendMessage(chatId, prevBotMsg);
                 break;
+            case '/getBookmark':
+                prevBotMsg = 'Enter a bookmark title';
+                bot.sendMessage(chatId, prevBotMsg);
+                break;
             default:
                 bot.sendMessage(chatId, `Whoops! Sorry, I don't know that command`);
                 break;
@@ -68,6 +72,22 @@ bot.on('message', async msg => {
                     const res = await db.addBookmark(chatId, data);
 
                     bot.sendMessage(chatId, res.message);
+                }
+                break;
+            case 'Enter a bookmark title':
+                if (msg.text !== '') {
+                    const res = await db.getBookmark(chatId, msg.text);
+
+                    if (!res.bookmarks.length) {
+                        bot.sendMessage(chatId, res.message);
+                        return;
+                    }
+                    
+                    bot.sendMessage(chatId, res.message);
+
+                    res.bookmarks.map(bookmark => {
+                        bot.sendMessage(chatId, bookmark.content);
+                    });
                 }
                 break;
         }

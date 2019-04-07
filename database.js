@@ -89,4 +89,22 @@ exports.addBookmark = async (chatId, data) => {
         return { message: 'Oops! It seems that something went wrong.' };
     }
 };
+
+exports.getBookmark = async (chatId, title) => {
+    const Bookmark = require(`./models/${chatId}`);
+
+    try {
+        const bookmarks = await Bookmark.find({ title }).exec();        
+        console.log('bookmark: ', bookmarks);
+
+        if (!bookmarks.length) {
+            return { bookmarks, message: 'No bookmarks found' };
+        }
+
+        return { bookmarks, message: `Found ${bookmarks.length} bookmark(s)` };
+    } catch (error) {
+        console.log('error: ', error);
+        return { message: 'Oops! It seems that something went wrong.' };
+    }
+};
 /** End */
