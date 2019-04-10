@@ -1,6 +1,9 @@
 const fs = require('fs');
 const util = require('util');
+const Cryptr = require('cryptr');
 const mongoose = require('mongoose');
+
+const cryptr = new Cryptr(process.env.CRYPTR_SECRET_KEY);
 
 const mongoURI = 'mongodb://127.0.0.1:27017/bookmarkerbot';
 const dirPath = `${__dirname}/models/`;
@@ -75,9 +78,9 @@ exports.addBookmark = async (chatId, data) => {
 
     const bookmark = new Bookmark({
         _id: new mongoose.Types.ObjectId(),
-        title,
-        content,
-        keywords,
+        title: cryptr.encrypt(title),
+        content: cryptr.encrypt(content),
+        keywords: keywords.map(keyword => cryptr.encrypt(keyword))
     });
 
     try {

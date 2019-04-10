@@ -13,6 +13,7 @@
   "author": "Gabriel Joshua Paet",
   "license": "ISC",
   "dependencies": {
+    "cryptr": "^4.0.2",
     "dotenv": "^7.0.0",
     "moment": "^2.24.0",
     "mongoose": "^5.4.22",
