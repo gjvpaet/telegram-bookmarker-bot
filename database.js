@@ -90,12 +90,11 @@ exports.addBookmark = async (chatId, data) => {
     }
 };
 
-exports.getBookmark = async (chatId, title) => {
+exports.getBookmark = async (chatId, type, query) => {
     const Bookmark = require(`./models/${chatId}`);
 
     try {
-        const bookmarks = await Bookmark.find({ title }).exec();        
-        console.log('bookmark: ', bookmarks);
+        const bookmarks = await Bookmark.find(type === 'title' ? { [type]: query } : { [type]: { $in: query.split(',') } }).exec();
 
         if (!bookmarks.length) {
             return { bookmarks, message: 'No bookmarks found' };

@@ -15,7 +15,6 @@ let title = '';
 let keywords = [];
 
 bot.on('message', async msg => {
-    console.log('msg: ', msg);
     const chatId = msg.chat.id;
 
     if (msg.entities && msg.entities[0].type === 'bot_command') {
@@ -29,8 +28,13 @@ bot.on('message', async msg => {
                 bot.sendMessage(chatId, prevBotMsg);
                 break;
             case '/getbookmark':
-                prevBotMsg = 'Enter a bookmark title';
-                bot.sendMessage(chatId, prevBotMsg);
+                prevBotMsg = 'Choose an option on how would you like to get your bookmark';
+                bot.sendMessage(chatId, prevBotMsg, {
+                    reply_markup: {
+                        keyboard: [['Title'], ['Keywords']],
+                        one_time_keyboard: true
+                    }
+                });
                 break;
             default:
                 bot.sendMessage(chatId, `Whoops! Sorry, I don't know that command`);
@@ -51,7 +55,6 @@ bot.on('message', async msg => {
                 }
                 break;
             case `Now let's give your bookmark a title`:
-                console.log('pumasok');
                 if (msg.text !== '') {
                     title = msg.text;
 
@@ -74,9 +77,23 @@ bot.on('message', async msg => {
                     bot.sendMessage(chatId, res.message);
                 }
                 break;
-            case 'Enter a bookmark title':
+            case 'Choose an option on how would you like to get your bookmark':
                 if (msg.text !== '') {
-                    const res = await db.getBookmark(chatId, msg.text);
+                    switch (msg.text) {
+                        case 'Title':
+                            prevBotMsg = 'Enter bookmark title'
+                            bot.sendMessage(chatId, prevBotMsg);
+                            break;
+                        case 'Keywords':
+                            prevBotMsg = 'Enter bookmark keyword(s) (comma separated)'
+                            bot.sendMessage(chatId, prevBotMsg);
+                            break;
+                    }
+                }
+                break;
+            case 'Enter bookmark title':
+                if (msg.text !== '') {
+                    const res = await db.getBookmark(chatId, 'title', msg.text);
 
                     if (!res.bookmarks.length) {
                         bot.sendMessage(chatId, res.message);
@@ -85,9 +102,21 @@ bot.on('message', async msg => {
 
                     bot.sendMessage(chatId, res.message);
 
-                    res.bookmarks.map(bookmark => {
-                        bot.sendMessage(chatId, bookmark.content);
-                    });
+                    res.bookmarks.map(bookmark => bot.sendMessage(chatId, bookmark.content));
+                }
+                break;
+            case 'Enter bookmark keyword(s) (comma separated)':
+                if (msg.text !== '') {
+                    const res = await db.getBookmark(chatId, 'keywords', msg.text);
+
+                    if (!res.bookmarks.length) {
+                        bot.sendMessage(chatId, res.message);
+                        return;
+                    }
+
+                    bot.sendMessage(chatId, res.message);
+
+                    res.bookmarks.map(bookmark => bot.sendMessage(chatId, bookmark.content));
                 }
                 break;
         }
