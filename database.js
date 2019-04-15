@@ -78,9 +78,9 @@ exports.addBookmark = async (chatId, data) => {
 
     const bookmark = new Bookmark({
         _id: new mongoose.Types.ObjectId(),
-        title: cryptr.encrypt(title),
-        content: cryptr.encrypt(content),
-        keywords: keywords.map(keyword => cryptr.encrypt(keyword))
+        title,
+        keywords,
+        content: cryptr.encrypt(content)
     });
 
     try {
@@ -97,11 +97,16 @@ exports.getBookmark = async (chatId, type, query) => {
     const Bookmark = require(`./models/${chatId}`);
 
     try {
-        const bookmarks = await Bookmark.find(type === 'title' ? { [type]: query } : { [type]: { $in: query.split(',') } }).exec();
+        let bookmarks = await Bookmark.find(type === 'title' ? { [type]: query } : { [type]: { $in: query.split(',') } }).exec();
 
         if (!bookmarks.length) {
             return { bookmarks, message: 'No bookmarks found' };
         }
+
+        bookmarks = bookmarks.map(bookmark => {
+            bookmark.content = cryptr.decrypt(bookmark.content);
+            return bookmark;
+        });
 
         return { bookmarks, message: `Found ${bookmarks.length} bookmark(s)` };
     } catch (error) {
