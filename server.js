@@ -11,7 +11,7 @@ const server = http.createServer(app);
 
 const { botListener } = require('./index');
 
-const mongoURI = 'mongodb://127.0.0.1:27017/bookmarkerbot';
+const mongoURI = 'mongodb://mongo:27017/bookmarkerbot';
 mongoose.connect(mongoURI, { useNewUrlParser: true });
 
 const onError = error => {

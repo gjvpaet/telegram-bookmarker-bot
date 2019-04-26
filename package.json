@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A bot to bookmark your stuff on telegram",
   "scripts": {
-    "dev": "nodemon server.js"
+    "start": "node server.js"
   },
   "keywords": [
     "telegram",

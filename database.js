@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 
 const cryptr = new Cryptr(process.env.CRYPTR_SECRET_KEY);
 
-const mongoURI = 'mongodb://127.0.0.1:27017/bookmarkerbot';
 const dirPath = `${__dirname}/models/`;
 
 /** Database initialization methods */
