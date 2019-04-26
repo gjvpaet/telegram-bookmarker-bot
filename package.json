@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A bot to bookmark your stuff on telegram",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon server.js"
   },
   "keywords": [
     "telegram",
@@ -15,8 +15,10 @@
   "dependencies": {
     "cryptr": "^4.0.2",
     "dotenv": "^7.0.0",
+    "express": "^4.16.4",
     "moment": "^2.24.0",
     "mongoose": "^5.4.22",
+    "morgan": "^1.9.1",
     "node-telegram-bot-api": "^0.30.0"
   }
 }
