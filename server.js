@@ -4,6 +4,7 @@ const http = require('http');
 const logger = require('morgan');
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const port = 3000;
 const app = express();
@@ -47,6 +48,7 @@ server.on('listening', onListening);
 
 app.use(logger('dev'));
 app.use(express.json());
+app.use(cors());
 
 botListener();
 
